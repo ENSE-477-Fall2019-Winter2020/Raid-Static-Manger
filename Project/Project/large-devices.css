@@ -1,0 +1,77 @@
+@CHARSET "UTF-8";
+body {
+    font-family:"Times New Roman", Times, serif;
+    font-size:100%;
+    background-color:linen;
+}
+
+header{
+    border:1px outset;
+    margin:5px;
+    margin-bottom:15px;
+    padding:8px;
+    background-color:gray;
+    clear: both;
+    color:white;
+    margin-bottom:5px;
+}
+
+header h1{
+	text-align: center;
+	
+}
+
+h1{
+	 color:White;
+}
+
+.div{
+	display: inline-block;
+	
+}
+
+.vote{
+	display: inline-block;
+	
+}
+section {
+    background-color:lightblue;
+    float: left;
+    width: 100%;
+}
+article
+{
+	border-style: inset;
+	border-width: 3px;
+	width: 200px;
+	height: 100px;
+}
+
+footer.link a:hover {
+    color: #ff0000;
+    text-align: center;
+}
+
+.err_msg
+{
+	color:red; 
+	text-decoration:underline;
+}
+
+.Creation
+{
+	width: 400px;
+	height: 200px;
+	
+}
+p.user {
+	border: 1px solid black;
+	background-color:linen;
+	width: 100px;
+	height: 20px;
+	
+}
+
+
+/* */
+
