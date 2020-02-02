@@ -5,23 +5,23 @@ if (isset($_POST["Login"]))  {
     
     $email = trim($_POST["email"]);
     $password = trim($_POST["pswd"]);
-    if (strlen($username) > 0 && strlen($password) > 0) {
+    if (strlen($email) > 0 && strlen($password) > 0) {
         
         $con = new mysqli("localhost", "gaoha202", "project", "gaoha202");
         if ($con->connect_error) {
             die("Connection failed: " . $con->connect_error);
         }
 
-        $ql = "SELECT user_id, user_name FROM User WHERE email = '$email' AND password = '$password'"; 
+        $ql = "SELECT uid, uname FROM User WHERE email = '$email' AND pwd = '$password'"; 
         $result = $con->query($ql);
 
         if ($row = $result->fetch_assoc()) {
          
             session_start();
-            $_SESSION["user_id"] = $row["user_id"];
-            $_SESSION["user_name"] = $row["user_name"];
+            $_SESSION["uid"] = $row["uid"];
+            $_SESSION["uname"] = $row["uname"];
             $error = ("Login successful");
-            header("Location: mainpage.html");
+            header("Location: mainpage.php");
         } else {
          
             $error = ("The username/password combination was incorrect.");
@@ -40,15 +40,16 @@ if (isset($_POST["Login"]))  {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="rsmMain.css" type="text/css" />
+<link rel="stylesheet" href="rsmLogin.css" type="text/css" />
 </head>
 <body>
 	<header>
 		<h1>
 			Raid Static Manager
 		</h1>
-
-		<hr />
+		<p>Please Login</p>
+</header>
+		<section>
 		<p class="error"><?=$error?></p>
 		<form id="Login_form" action="rsmLogin.php" method="post"
 			enctype="multipart/form-data">
@@ -83,12 +84,12 @@ if (isset($_POST["Login"]))  {
 				<input type="reset" name="Reset" value="Reset" method="post" />
 			</p>
 		</form>
-		</header>
 		
+		</section>
 		</body>
 <footer>
 <a href = "rsmSignup.php">Sign Up</a>
-<a href = "mainpage.html">Main Page</a>
+<a href = "mainpage.php">Main Page</a>
 </footer>		
 		
 		</html>

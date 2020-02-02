@@ -10,8 +10,8 @@ $password = $_POST["pswd"];
 $cPassword = $_POST["pswdr"];
 
 $con = new mysqli("localhost", "gaoha202", "project", "gaoha202");
-if(!$con){
-    echo "error connection";   
+if (! $con) {
+    echo "error connection";
 }
 
 if (isset($_POST["reset"])) {
@@ -19,18 +19,18 @@ if (isset($_POST["reset"])) {
 }
 
 if (isset($_POST["submit"])) {
-    
+
     $query = "select * from User where email = $email";
     $check = $con->query($query);
-    
-    if(count($check)){
+
+    if (count($check)) {
         $validate = false;
         $error1 = "Email has alredy exist";
-    }else{
+    } else {
         $error1 = "";
     }
-        
-    $qu = "insert into User(user_id, email, user_name, password) values (null,'$email','$name','$password')";
+
+    $qu = "INSERT INTO User(uid, email, uname, pwd, date) VALUES (null,'$email','$name','$password', NOW())";
     $result = $con->query($qu);
 
     if ($email == "" || ! filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -64,7 +64,7 @@ if (isset($_POST["submit"])) {
     }
 
     if ($validate == true) {
-        header("Location:mainpage.php");
+        header("Location:rsmLogin.php");
     } else {
         $con->close();
     }
@@ -130,6 +130,8 @@ if (isset($_POST["submit"])) {
 		<p class="div">
 			<input type="submit" name="submit" value="Sign Up" /> <input
 				type="reset" name="reset" value="Reset" />
+		
+		
 		<p>
 	
 	</form>
