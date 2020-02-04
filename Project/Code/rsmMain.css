@@ -25,10 +25,6 @@ h1 {
 	color: White;
 }
 
-.div {
-	display: inline-block;
-}
-
 section {
 	background-color: lightblue;
 	width: 60%;
@@ -67,16 +63,11 @@ textarea {
 
 .welcome {
 	position: relative;
-	left: 500px;
+	left: 420px;
 }
 
 #username {
 	color: gray;
-}
-
-.logout {
-	position: absolute;
-	right: 2%;
 }
 
 .titles {
@@ -87,10 +78,7 @@ textarea {
 	font: 18px bold normal SouciSansRegular;
 }
 
-.History {
-	position: absolute;
-	left: 33%;
-}
+
 .quicklink{
 
 -webkit-box-sizing: content-box;
@@ -128,4 +116,30 @@ transform-origin: 50% 50% 0;
 
 }
 
-/* */
+.logout {
+	position: absolute;
+	right: 2%;
+	top:260px;
+	height:35px;
+
+}
+
+#History{
+	position:relative;
+	border: 1px solid black;
+}
+
+#BP{
+	position:relative;
+	border: 1px solid black;
+}
+
+#item{
+	position:relative;
+	border: 1px solid black;
+}
+
+.load{
+	position: relative;
+  	left: 300px;
+}
