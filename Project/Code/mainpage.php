@@ -7,7 +7,7 @@ if (! isset($_SESSION["uid"])) {
     $user_id = $_SESSION["uid"];
     $username = $_SESSION["uname"];
 
-    $con = new mysqli("localhost", "gaoha202", "project", "gaoha202");
+    $con = new mysqli("localhost", "username", "password", "username");
     if ($con->connect_error) {
         die("Connection failed: " . $con->connect_error);
     }
@@ -46,8 +46,8 @@ if (isset($_POST["submit"])) {
 		<div id="header">
 			<span class="quicklink"><a href="mainpage.php">Home</a></span> <span
 				class="quicklink"><a href="#">Raid Record</a></span> <span
-				class="quicklink"><a href="#">Members Detail</a></span> <span
-				class="quicklink"><a href="#">Add/Remove Members</a></span> <span
+				class="quicklink"><a href="memberDetail.php">Members Detail</a></span> <span
+				class="quicklink"><a href="memberChange.php">Add/Remove Members</a></span> <span
 				class="welcome"><?php echo "Welcome ! Dear User "?></span><span
 				class="welcome" id="username"><?php echo $username;?></span> <span
 				class="logout"><a href="rsmLogout.php">Log out</a></span>
@@ -100,7 +100,7 @@ if (isset($_POST["submit"])) {
 					
 					</tr>
 					<?php
-    $bp = "SELECT * FROM BP LIMIT 8";
+    $bp = "SELECT * FROM Members LIMIT 8";
     $p = $con->query($bp);
     while ($row = $p->fetch_assoc()) {
         ?>
@@ -162,16 +162,24 @@ if (isset($_POST["submit"])) {
 					<p class="div">
 						<input type="submit" name="submit" value="Add Comment" />
 					</p>
-			
+			</form>
 			</div>
+			
 		<?php
+
+if (isset($_POST["remove"])){
+    $id=$_POST["id"];
+    $se ="DELETE FROM Comments WHERE comments_id = '$id'";
+    $rm=$con->query($se);
+    header("login.php");
+}
 
 $comm = "SELECT * FROM Comments ORDER BY date DESC LIMIT 10";
 $com = $con->query($comm);
-
 while ($row = $com->fetch_assoc()) {
-
-    ?>
+    
+    ?><form action="mainpage.php" method="post">
+    
 		<table class="userComments">
 
 				<tr>
@@ -180,11 +188,12 @@ while ($row = $com->fetch_assoc()) {
 				</tr>
 				<tr>
 					<td><p><?=$row["comments"]?></p></td>
-					<td><input type="hidden" name=<?=$row["comments_id"]?>></td>
-					<td><input type="button" name="remove" value="remove"/></td>
+					<td><input type="hidden" name="id" value=<?=$row["comments_id"]?>></td>
+					<td><input type="submit" name="remove" value="remove"/></td>
 				</tr>
 
 			</table>
+			</form>
 			<br />
 	<?php
 }
@@ -194,8 +203,8 @@ $con->close();
 </div>
 	</section>
 	<hr />
-	</form>
-	<footer> @copy right gaoha202@uregina.ca </footer>
+	
+	<footer> @copy right @gaoha202 </footer>
 
 </body>
 </html>

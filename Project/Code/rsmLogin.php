@@ -7,7 +7,7 @@ if (isset($_POST["Login"]))  {
     $password = trim($_POST["pswd"]);
     if (strlen($email) > 0 && strlen($password) > 0) {
         
-        $con = new mysqli("localhost", "gaoha202", "project", "gaoha202");
+        $con = new mysqli("localhost", "username", "password", "username");
         if ($con->connect_error) {
             die("Connection failed: " . $con->connect_error);
         }
@@ -47,9 +47,12 @@ if (isset($_POST["Login"]))  {
 		<h1>
 			Raid Static Manager
 		</h1>
-		<p>Please Login</p>
 </header>
 		<section>
+		<table>
+		<tr><td>>Hey, welcome to my FFXIV Raid Static Manager website, before entering the manage site please login first</td></tr>
+		<tr><td>If you have any touble to login, please check the FAQ under below</td></tr> 
+		</table>
 		<p class="error"><?=$error?></p>
 		<form id="Login_form" action="rsmLogin.php" method="post"
 			enctype="multipart/form-data">
@@ -84,6 +87,20 @@ if (isset($_POST["Login"]))  {
 				<input type="reset" name="Reset" value="Reset" method="post" />
 			</p>
 		</form>
+		
+
+<table>
+<tr><td>FAQ</td></tr>
+<tr><td>What would I do if I dont have an account?</td></tr>
+<tr><td>Click the button at below to Sign up a new account.</td></tr>
+<tr><td></td></tr>
+<tr><td></td></tr>
+<tr><td>Forget your password?</td></tr>
+<tr><td>Use your account email address, send email to : gaoha202@uregina.ca to get your password.</td></tr>
+<tr><td></td></tr>
+<tr><td></td></tr>
+<tr><td>If there is any other concerns, you can also send email to gaoha202@uregina.ca</td></tr>
+</table>
 		
 		</section>
 		</body>

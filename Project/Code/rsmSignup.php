@@ -9,7 +9,7 @@ $name = $_POST["uname"];
 $password = $_POST["pswd"];
 $cPassword = $_POST["pswdr"];
 
-$con = new mysqli("localhost", "gaoha202", "project", "gaoha202");
+$con = new mysqli("localhost", "username", "password", "username");
 if (! $con) {
     echo "error connection";
 }
@@ -29,9 +29,6 @@ if (isset($_POST["submit"])) {
     } else {
         $error1 = "";
     }
-
-    $qu = "INSERT INTO User(uid, email, uname, pwd, date) VALUES (null,'$email','$name','$password', NOW())";
-    $result = $con->query($qu);
 
     if ($email == "" || ! filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $validate = false;
@@ -64,6 +61,8 @@ if (isset($_POST["submit"])) {
     }
 
     if ($validate == true) {
+        $qu = "INSERT INTO User(uid, email, uname, pwd, date) VALUES (null,'$email','$name','$password', NOW())";
+        $result = $con->query($qu);
         header("Location:rsmLogin.php");
     } else {
         $con->close();
@@ -80,11 +79,12 @@ if (isset($_POST["submit"])) {
 <link rel="stylesheet" href="rsmSignup.css" type="text/css" />
 </head>
 <header>
-	<h1>Please Sign Up</h1>
+	<h1>Raid Static Manager</h1>
 
 </header>
 
 <section>
+	<P>Please Sign up to get your account</P>
 	<form id="rsmSignup" action="rsmSignup.php" method="post"
 		enctype="multipart/form-data">
 		<table>
@@ -128,20 +128,33 @@ if (isset($_POST["submit"])) {
 		</table>
 		<br />
 		<p class="div">
-			<input type="submit" name="submit" value="Sign Up" /> <input
-				type="reset" name="reset" value="Reset" />
+			<input type="submit" name="submit" value="Sign Up" /> 
+			<input type="submit" name="reset" value="Reset" />
 		
 		
 		<p>
 	
 	</form>
+	<p>NOTE:
+	
+	
+	<P>
+	
+	
+	<ul>
+		<li>Email can not be empty</li>
+		<li>User name can not be empty</li>
+		<li>Password can not be empty, and must contained at least one number
+			and one uppercase and lowercase letter, and at least 8 or more
+			characters</li>
+		<li>Confirmed password must be the same with password</li>
+	</ul>
 </section>
 
 <footer>
 	<p>
-		<a href="rsmLogin.php">Login</a>
+		<a href="rsmLogin.php">Already have an account?</a>
 	</p>
-	<p>Forget your password? Contact me at: gaoha202@uregina.ca</p>
 </footer>
 </body>
 </html>
