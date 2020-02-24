@@ -7,13 +7,13 @@ if (! isset($_SESSION["uid"])) {
     $user_id = $_SESSION["uid"];
     $username = $_SESSION["uname"];
 
-    $con = new mysqli("localhost", "username", "password", "username");
+    $con = new mysqli("localhost", "gaoha202", "project", "gaoha202");
     if ($con->connect_error) {
         die("Connection failed: " . $con->connect_error);
     }
 }
 
-$detail = "SELECT Members.uname,Members.job,Members.BP,Obtained.item FROM Members LEFT JOIN Obtained ON Members.uname = Obtained.uname ";
+$detail = "SELECT Members.uname,Members.job,Members.BP,Obtained.item FROM Members LEFT JOIN Obtained ON Members.uname = Obtained.uname WHERE Members.uid = '$user_id' ";
 $details = $con->query($detail);
 ?>
 <!DOCTYPE>
@@ -37,7 +37,7 @@ $details = $con->query($detail);
 
 		<div id="header">
 			<span class="quicklink"><a href="mainpage.php">Home</a></span> <span
-				class="quicklink"><a href="#">Raid Record</a></span> <span
+				class="quicklink"><a href="raidRecord.php">Raid Record</a></span> <span
 				class="quicklink"><a href="memberDetail.php">Members Detail</a></span>
 			<span class="quicklink"><a href="memberChange.php">Add/Remove Members</a></span>
 			<span class="welcome"><?php echo "Welcome ! Dear User "?></span><span

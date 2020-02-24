@@ -7,13 +7,13 @@ if (! isset($_SESSION["uid"])) {
     $user_id = $_SESSION["uid"];
     $username = $_SESSION["uname"];
 
-    $con = new mysqli("localhost", "username", "password", "username");
+    $con = new mysqli("localhost", "gaoha202", "project", "gaoha202");
     if ($con->connect_error) {
         die("Connection failed: " . $con->connect_error);
     }
 }
 
-$member = "SELECT * FROM Members";
+$member = "SELECT * FROM Members WHERE uid='$user_id'";
 $members = $con->query($member);
 
 if (isset($_POST["add"])) {
@@ -21,12 +21,18 @@ if (isset($_POST["add"])) {
     $job = $_POST["job"];
     $mbp = $_POST["mbp"];
 
-    $add = "INSERT INTO Members(uname, job, BP, members_id, date) VALUES ('$mname', '$job','$mbp',NULL, NOW())";
+    $add = "INSERT INTO Members(uname, job, BP, members_id,uid, date) VALUES ('$mname', '$job','$mbp',NULL, '$user_id',NOW())";
     $added = $con->query($add);
-    header("memberChange.php");
-}else{
-    header("memberChange.php");
+    header("location:memberChange.php");
 }
+
+if (isset($_POST["remove"])) {
+    $id = $_POST["id"];
+    $remove = "DELETE FROM Members WHERE uid = '$user_id' AND members_id = '$id'";
+    $rm = $con->query($remove);
+    header("location:memberChange.php");
+}
+
 ?>
 <!DOCTYPE>
 <html>
@@ -49,49 +55,55 @@ if (isset($_POST["add"])) {
 
 		<div id="header">
 			<span class="quicklink"><a href="mainpage.php">Home</a></span> <span
-				class="quicklink"><a href="#">Raid Record</a></span> <span
-				class="quicklink"><a href="memberDetail.php">Members Detail</a></span> <span
-				class="quicklink"><a href="memberChange.php">Add/Remove Members</a></span> <span
-				class="welcome"><?php echo "Welcome ! Dear User "?></span><span
+				class="quicklink"><a href="raidRecord.php">Raid Record</a></span> <span
+				class="quicklink"><a href="memberDetail.php">Members Detail</a></span>
+			<span class="quicklink"><a href="memberChange.php">Add/Remove Members</a></span>
+			<span class="welcome"><?php echo "Welcome ! Dear User "?></span><span
 				class="welcome" id="username"><?php echo $username;?></span> <span
 				class="logout"><a href="rsmLogout.php">Log out</a></span>
 		</div>
 	</header>
 	<section>
-		<form id="rsmADD" action="memberChange.php" method="post"
-			enctype="multipart/form-data">
-			<div id="Members">
-				<p class="titles">Static Members List</p>
-				<table id="membersList">
+		<div id="Members">
+			<p class="titles">Static Members List</p>
+			<table id="membersList">
 
-					<tr>
-						<td><p>Member Name</p></td>
-						<td><p>Job</p></td>
-						<td><p>BP</p></td>
-					</tr>
+				<tr>
+					<td><p>Member Name</p></td>
+					<td><p>Job</p></td>
+					<td><p>BP</p></td>
+				</tr>
 				<?php
-    if (isset($_POST["remove"])) {
-        $id = $_POST["id"];
-        $remove = "DELETE FROM Members WHERE members_id = '$id'";
-        $rm = $con->query($remove);
-    } else {
-
-        header("memberChange.php");
-    }
     while ($row = $members->fetch_assoc()) {
         ?>
 					<tr>
-						<td><P><?=$row["uname"]?></P></td>
+					<form class="rsmadd" action="memberChange.php" method="post"
+						enctype="multipart/form-data">
+
+
+						<td><p><?=$row["uname"]?></p></td>
 						<td><p><?=$row["job"]?></p></td>
 						<td><p><?=$row["BP"]?></p></td>
 						<td><input type="hidden" name="id" value=<?=$row["members_id"]?>></td>
 						<td><input type="submit" name="remove" value="remove" /></td>
-					</tr>
+					</form>
+
+				</tr>
+					
 				<?php }?>
+				
 			<tr>
-						<td></td>
-						<td><p class="err_msg"><?php echo $error1;?></p></td>
-					</tr>
+					<td></td>
+					<td> 
+							<?php if( isset( $error1 ) ):?>
+                            <p class="err_msg"><?php echo $error1;?></p>
+                            <?php endif;?>
+                       </td>
+				</tr>
+				<form class="rsmadd" action="memberChange.php" method="post"
+					enctype="multipart/form-data">
+
+
 					<tr>
 						<td>Member Name:</td>
 						<td><input class="right_msg" type="text" name="mname" size="20" /></td>
@@ -102,10 +114,12 @@ if (isset($_POST["add"])) {
 						<td></td>
 						<td><input class="add" type="submit" name="add"
 							value="Add New Member" /></td>
+
 					</tr>
-				</table>
+				</form>
+			</table>
 		
-		</form>
+		
 <?php
 $con->close();
 ?>
