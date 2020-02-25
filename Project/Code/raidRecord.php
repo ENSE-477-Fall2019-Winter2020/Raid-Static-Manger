@@ -13,57 +13,6 @@ if (! isset($_SESSION["uid"])) {
     }
 }
 
-$member = "SELECT * FROM Members WHERE uid='$user_id'";
-$members = $con->query($member);
-
-
-if (isset($_POST["record"])) {
-    
-    $battleArea = $_POST["area"];
-    $date = $_POST["date"];
-    $tdps = $_POST["tdps"];
-    $time = $_POST["time"];
-    $uname =$_POST["uname"];
-    $atd = $_POST["atd"];
-    $dps = $_POST["dps"];
-    $mistake = $_POST["mistake"];
-    $death = $_POST["death"];
-    $bp = $_POST["bp"];
-    $item1 = $_POST["item1"];
-    $item2 = $_POST["item2"];
-    $item3 = $_POST["item3"];
-    $item4 = $_POST["item4"];
-    $item5 = $_POST["item5"];
-    $item6 = $_POST["item6"];
-    
-    $battle = "INSERT INTO History (battle_id, uid, location, date, dps, time) VALUES (null, '$user_id', '$battleArea','$date','$tdps','$time')";
-    $summary = $con->query($battle);
-    
-    $battle_id = mysqli_insert_id($con);
-    
-  
-    $dm ="INSERT INTO Dropped (item_id, battle_id, uid, item_name) VALUES (null, '$battle_id', '$user_id', '$item1'),
-    (null, '$battle_id', '$user_id', '$item2'), (null, '$battle_id', '$user_id', '$item3'), (null, '$battle_id', '$user_id', '$item4'), (null, '$battle_id', '$user_id', '$item5'),
-    (null, '$battle_id', '$user_id', '$item6')";
-    $rm = "DELETE FROM Dropped WHERE item_name = ''";
-    $items = $con->query($dm);
-    $remove = $con->query($rm);
-    
-
-
-foreach ($uname as $_idx => $_tmp_uname ){
-    $tmp_atd = $atd[ $_idx ];
-    $tmp_dps = $dps[ $_idx ];
-    $tmp_amistake = $mistake[ $_idx ];
-    $tmp_death = $death[ $_idx ];
-    $tmp_bp = $bp[ $_idx ];
-    $mp = "INSERT INTO Performance (battle_id,uid,members_name,attendance,dps,mistake,death,bp) VALUES ('$battle_id','$user_id','$_tmp_uname','$tmp_atd','$tmp_dps','$tmp_amistake','$tmp_death','$tmp_bp')";
-    $mbc = "UPDATE Members SET BP = BP + '$tmp_bp' WHERE uname ='$_tmp_uname' AND uid = '$user_id'";
-    $performance = $con->query($mp);
-    $bpChange = $con->query($mbc);
-}
-header("location:mainpage.php");
-}
 ?>
 <!DOCTYPE>
 <html>
@@ -86,6 +35,7 @@ header("location:mainpage.php");
 
 		<div id="header">
 			<span class="quicklink"><a href="mainpage.php">Home</a></span> <span
+				class="quicklink"><a href="newRecord.php">Add New Record</a></span><span
 				class="quicklink"><a href="raidRecord.php">Raid Record</a></span> <span
 				class="quicklink"><a href="memberDetail.php">Members Detail</a></span>
 			<span class="quicklink"><a href="memberChange.php">Add/Remove Members</a></span>
@@ -95,93 +45,100 @@ header("location:mainpage.php");
 		</div>
 	</header>
 	<section>
-		<p class="titles">New Record</p>
-		<div id="Record">
-		<form id="record" action="raidRecord.php" method="post">
-			<table id="summary">
-				<tr>
-					<td><p>Battle Area:</p></td>
-					<td><input class="right_msg" type="text" name="area" size="20" /></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td><p>DATE</p></td>
-					<td><input class="right_msg" type="datetime-local" name="date" /></td>
-				</tr>
-				<tr>
-					<td><p>TOTAL DPS:</p></td>
-					<td><input class="right_msg" type="text" name="tdps" size="20" /></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td><p>TOTAL TIME:</p></td>
-					<td><input class="right_msg" type="time" name="time" /></td>
-					<td></td>
-				</tr>
-			</table>
+		<div class="content">
+			<div id="recordList">
+                <?php
+                $history = "SELECT * FROM History WHERE uid = '$user_id' ORDER BY date DESC LIMIT 8";
+                $his = $con->query($history);
+                while ($row = $his->fetch_assoc()) {
+                    ?>
+                    <div class="summary">
+					<table>
+						<tr>
+							<td><p class="titles"><?=$row['location'];?></p></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 
-			<br /> <br />
-			<table>
-				<tr>
-					<td><p>Member Name</p></td>
-					<td><p>Attendance(Y/N)</p></td>
-					<td><p>DPS</p></td>
-					<td><p>Mistakes</p></td>
-					<td><p>Deaths</p></td>
-					<td><p>BP(+/-)</p></td>
-				</tr>
-				<?php
-    while ($row = $members->fetch_assoc()) {
-        
-        ?>
-				<tr>
-					<td><?=$row["uname"]?><input type = "hidden" name = "uname[]" value = "<?=$row["uname"]?>"/></td>
-					<td><input class="right_msg" type="text" name="atd[]" size="5" /></td>
-					<td><input class="right_msg" type="text" name="dps[]" size="5" /></td>
-					<td><input class="right_msg" type="text" name="mistake[]" size="5" />times</td>
-					<td><input class="right_msg" type="text" name="death[]" size="5" />times</td>
-					<td><input class="right_msg" type="text" name="bp[]" size="5" /></td>
-				</tr>
+							<td>Date:</td>
+							<td> <?=$row['date'];?> </td>
+
+						</tr>
+						<tr>
+							<td><p>DPS:</p></td>
+							<td><?=$row["dps"]?></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+
+							<td><p>Total Time:</p></td>
+							<td><?=$row["time"]?></td>
+						</tr>
+						</div>
+					</table>
+					<br />
+					<table>
+						<tr>
+							<td>Member Name</td>
+							<td>Attendance(Y/N)</td>
+							<td>DPS</td>
+							<td>Mistakes</td>
+							<td>Deaths</td>
+							<td>BP(+/-)</td>
+						</tr>
+
+                                    <?php
+                    $tmp_sql = "select * from Performance where uid = '$user_id' and battle_id = {$row['battle_id']}";
+                    $performance_list = $con->query($tmp_sql);
+                    while ($tmp_row = $performance_list->fetch_assoc()) {
+                        ?>
+                                    <tr>
+							<td><?=$tmp_row['members_name'];?></td>
+							<td><?=$tmp_row['attendance'];?></td>
+							<td><?=$tmp_row['dps'];?></td>
+							<td><?=$tmp_row['mistake'];?></td>
+							<td><?=$tmp_row['death'];?></td>
+							<td><?=$tmp_row['bp'];?></td>
+						</tr>
+                                    <?php }?>
+                                </table>
+					<br />
 					
-				<?php }?>
-		</table>
-			<tr>
-				<td></td>
-				<td> 
-							<?php if( isset( $error1 ) ):?>
-                            <p class="err_msg"><?php echo $error1;?></p>
-                            <?php endif;?>
-                       </td>
-			</tr>
-			</table>
-			<p class="titles">Dropped Items</p>
-			<table>
-				<tr>
-					<td>item1<input class="right_msg" type="text" name="item1" size="5" /></td>
-					<td></td><td></td><td></td><td></td>
-					<td>item2<input class="right_msg" type="text" name="item2" size="5" /></td>
-					<td></td><td></td><td></td><td></td>
-					<td>item3<input class="right_msg" type="text" name="item3" size="5" /></td>
-				</tr>
-				<tr>
-					<td>item4<input class="right_msg" type="text" name="item4" size="5" /></td>
-					<td></td><td></td><td></td><td></td>
-					<td>item5<input class="right_msg" type="text" name="item5" size="5" /></td>
-					<td></td><td></td><td></td><td></td>
-					<td>item6<input class="right_msg" type="text" name="item6" size="5" /></td>
-				</tr>
-			</table>
-			
-			<p><input class="right_msg" type="submit" name="record" value = "record" /></p>
-		</form>
-		
-<?php
-$con->close();
-?>
-	</div>
+							<p>Dropped Items</p>
+						<table>
+						<tr>
+                                    <?php
+                    $tmp_sql = "select * from Dropped where uid = '$user_id' and battle_id = {$row['battle_id']}";
+                    $drop_list = $con->query($tmp_sql);
+                    while ($tmp_row = $drop_list->fetch_assoc()) {
+                        $id = $tmp_row['item_id'];
+                        ?>
+                         
+                         <td>Item:</td>
+							<td><a href="itemAuction.php?itme_id=<?=$tmp_row['item_id']?>"><?=$tmp_row['item_name'];?></a></td>
+						<td></td><td></td><td></td><td></td>
+                                    <?php }?>
+                                    </tr>
+                                </table>
+
+					<hr />
+                <?php }?>
+            </div>
+			</div>
+	
 	</section>
+
 	<hr />
 	<footer> copy right @gaoha202</footer>
-
+    <?php
+    $con->close();
+    ?>
 </body>
 </html>
