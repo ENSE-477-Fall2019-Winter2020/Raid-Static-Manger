@@ -1,5 +1,11 @@
 <?php
 session_start();
+$item_id = isset($_GET['item_id']) ? $_GET['item_id'] : 0;
+if (! $item_id) {
+    echo "Unavaliable id";
+    exit();
+}
+
 if (! isset($_SESSION["uid"])) {
     header("Location: rsmLogin.php");
     exit();
@@ -13,15 +19,26 @@ if (! isset($_SESSION["uid"])) {
     }
 }
 
+$tmp_sql = "SELECT * FROM Dropped WHERE item_id = '$item_id'";
+$result = $con->query($tmp_sql);
+$dropped_info = $result->fetch_assoc();
+if (! $dropped_info) {
+    header("location:itemAuction.php?item_id='$item_id'");
+    exit(0);
+}
+
 if (isset($_POST["bid"])) {
+    
     $mname = $_POST["mname"];
     $job = $_POST["job"];
     $mbp = $_POST["mbp"];
-    $id = $_GET["item_id"];
-
-    $add = "INSERT INTO Auction(item_id, members_name, job, date) VALUES ('$id', '$mname','$job',NOW())";
+    $battle_id = $dropped_info['battle_id'];
+    $uid = $dropped_info['uid'];
+    
+    $add = "INSERT INTO Auction(item_id, members_name, job,bp, date,battle_id,uid) VALUES ('$item_id', '$mname','$job','$mbp',NOW(),'$battle_id','$uid')";
     $added = $con->query($add);
-    header("location:itemAuction.php?item_id={$id}");
+    header("location:itemAuction.php?item_id=$item_id");
+    exit(0);
 }
 ?>
 <!DOCTYPE>
@@ -57,11 +74,9 @@ if (isset($_POST["bid"])) {
 	<section>
 
 		<div id="auctions">
-			<p>Auction</p>
-			<form class="rsmadd" action="itemAuction.php" method="post"
-				enctype="multipart/form-data">
-
-
+			<p>Auction : <?=$dropped_info['item_name'];?></p>
+			<form class="rsmadd" action="itemAuction.php?item_id=<?=$item_id;?>"
+				method="post" enctype="multipart/form-data">
 				<tr>
 					<td>Member Name:</td>
 					<td><input class="right_msg" type="text" name="mname" size="20" /></td>
@@ -74,22 +89,22 @@ if (isset($_POST["bid"])) {
 
 				</tr>
 			</form>
-				<table>
+			<table>
 				<tr>
 					<td><p>Member Name</p></td>
 					<td><p>Job</p></td>
 					<td><p>BP</p></td>
 				</tr>
 				 <?php
-    $tmp_sql = "select * from Auction WHERE item_id = '$id' LIMIT 8";
+    $tmp_sql = "select * from Auction WHERE item_id = '$item_id' LIMIT 8";
     $bid_list = $con->query($tmp_sql);
     while ($tmp_row = $bid_list->fetch_assoc()) {
         ?><tr>
-                         
-            <td><?=$tmp_row["members_name"]?></td>
-			<td><p><?=$tmp_row["job"]?></p></td>
-			<td><p><?=$tmp_row["bp"]?></p></td>
-			</tr>
+
+					<td><?=$tmp_row["members_name"]?></td>
+					<td><p><?=$tmp_row["job"]?></p></td>
+					<td><p><?=$tmp_row["bp"]?></p></td>
+				</tr>
                                     <?php }?>
                                     
 			</table>

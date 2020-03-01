@@ -122,7 +122,7 @@ if (! isset($_SESSION["uid"])) {
                         ?>
                          
                          <td>Item:</td>
-							<td><a href="itemAuction.php?itme_id=<?=$tmp_row['item_id']?>"><?=$tmp_row['item_name'];?></a></td>
+							<td><a href="itemAuction.php?item_id=<?=$tmp_row['item_id']?>"><?=$tmp_row['item_name'];?></a></td>
 						<td></td><td></td><td></td><td></td>
                                     <?php }?>
                                     </tr>

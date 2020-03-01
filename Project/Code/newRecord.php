@@ -34,8 +34,9 @@ if (isset($_POST["record"])) {
     $item4 = $_POST["item4"];
     $item5 = $_POST["item5"];
     $item6 = $_POST["item6"];
-
-    $battle = "INSERT INTO History (battle_id, uid, location, date, dps, time) VALUES (null, '$user_id', '$battleArea','$date','$tdps','$time')";
+    $auction_start_date = date("Y-m-d");
+    $auction_end_date = date("Y-m-d", strtotime("+1 days"));
+    $battle = "INSERT INTO History (battle_id, uid, location, date, dps, time,auction_start_date,auction_end_date) VALUES (null, '$user_id', '$battleArea','$date','$tdps','$time','{$auction_start_date}','{$auction_end_date}')";
     $summary = $con->query($battle);
 
     $battle_id = mysqli_insert_id($con);

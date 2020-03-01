@@ -37,6 +37,7 @@ $details = $con->query($detail);
 
 		<div id="header">
 			<span class="quicklink"><a href="mainpage.php">Home</a></span> <span
+				class="quicklink"><a href="newRecord.php">Add New Record</a></span><span
 				class="quicklink"><a href="raidRecord.php">Raid Record</a></span> <span
 				class="quicklink"><a href="memberDetail.php">Members Detail</a></span>
 			<span class="quicklink"><a href="memberChange.php">Add/Remove Members</a></span>
@@ -80,8 +81,10 @@ $details = $con->query($detail);
 					<p class="titles">items :</p>
 					<p><?=$row["item"]?></p>
 				</div>
-				<br/>				
+				<br />				
 		<?php }?>
+		
+		
 		
 		
 		
