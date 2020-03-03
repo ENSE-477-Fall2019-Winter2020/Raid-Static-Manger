@@ -36,7 +36,7 @@ if (isset($_POST["record"])) {
     $item6 = $_POST["item6"];
     $auction_start_date = date("Y-m-d");
     $auction_end_date = date("Y-m-d", strtotime("+1 days"));
-    $battle = "INSERT INTO History (battle_id, uid, location, date, dps, time,auction_start_date,auction_end_date) VALUES (null, '$user_id', '$battleArea','$date','$tdps','$time','{$auction_start_date}','{$auction_end_date}')";
+    $battle = "INSERT INTO History (battle_id, uid, location, date, dps, time,auction_start_date,auction_end_date) VALUES (null, '$user_id', '$battleArea','$date','$tdps','$time','$auction_start_date','$auction_end_date')";
     $summary = $con->query($battle);
 
     $battle_id = mysqli_insert_id($con);
@@ -47,160 +47,150 @@ if (isset($_POST["record"])) {
     $rm = "DELETE FROM Dropped WHERE item_name = ''";
     $items = $con->query($dm);
     $remove = $con->query($rm);
-
-    foreach ($uname as $_idx => $_tmp_uname) {
+    foreach ($uname as $_idx => $_uname) {
         $tmp_atd = $atd[$_idx];
         $tmp_dps = $dps[$_idx];
         $tmp_amistake = $mistake[$_idx];
         $tmp_death = $death[$_idx];
         $tmp_bp = $bp[$_idx];
-        $mp = "INSERT INTO Performance (battle_id,uid,members_name,attendance,dps,mistake,death,bp) VALUES ('$battle_id','$user_id','$_tmp_uname','$tmp_atd','$tmp_dps','$tmp_amistake','$tmp_death','$tmp_bp')";
-        $mbc = "UPDATE Members SET BP = BP + '$tmp_bp' WHERE uname ='$_tmp_uname' AND uid = '$user_id'";
+        $mp = "INSERT INTO Performance (battle_id,uid,members_name,attendance,dps,mistake,death,bp) VALUES ('$battle_id','$user_id','$_uname','$tmp_atd','$tmp_dps','$tmp_amistake','$tmp_death','$tmp_bp')";
+        $mbc = "UPDATE Members SET BP = BP + '$tmp_bp' WHERE uname ='$_uname' AND uid = '$user_id'";
         $performance = $con->query($mp);
         $bpChange = $con->query($mbc);
     }
-    header("location:mainpage.php");
+    header("location:raidRecord.php");
 }
 ?>
-<!DOCTYPE>
-<html>
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xml:lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="rsmADD.css" type="text/css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" href="style.css">
+<title>New Record</title>
 </head>
+
 <body>
+	<header></header>
+	<nav class="nav clearfix">
+		<ul>
+			<li class="nav-item"><a href="mainpage.php">Home</a></li>
+			<li class="nav-item"><a href="newRecord.php">Add New Record</a></li>
+			<li class="nav-item"><a href="raidRecord.php">Raid Record</a></li>
+			<li class="nav-item"><a href="memberDetail.php">Members Detail</a></li>
+			<li class="nav-item"><a href="memberChange.php">Add/Remove Members</a></li>
+		</ul>
+		<ul class="fr">
+			<li class="nav-item">
+				<?php echo "Welcome ! Dear User ";echo $username; ?></li>
+			<li class="nav-item"><a href="rsmLogout.php">Log out</a></li>
+		</ul>
+	</nav>
+	<!-- main -->
+	<main class="clearfix">
+	<table style="margin-bottom: 10px">
+	
+			<tr>
+				<td width="25%"><img style="height: 600px"
+					src="artResources/character1.jpg" alt="" class="img" /></td>
+				<td width="50%" class="valignt">
+					<div class="history-box">
+						<div class="title cl">
+							<h3>New Record</h3>
+						</div>
+						<div id="newRecord">
+							<form id="record" action="newRecord.php" method="post">
+								<table id="summary" class="widthfull">
+									<tr>
+										<td><p>Battle Area:</p></td>
+										<td><input class="right_msg" type="text" name="area" size="20" /></td>
+										<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+										<td><p>DATE</p></td>
+										<td><input class="right_msg" type="datetime-local" name="date" /></td>
+									</tr>
+									<tr>
+										<td><p>TOTAL DPS:</p></td>
+										<td><input class="right_msg" type="text" name="tdps" size="20" /></td>
+										<td></td>
+										<td><p>TOTAL TIME:</p></td>
+										<td><input class="right_msg" type="time" name="time" /></td>
+										<td></td>
+									</tr>
+								</table>
 
-	<header>
-		<h1>
-			<p>
-				<img src="ffxiv.png" alt="" style="position: inline" width="100%"
-					height="20%" />Raid Static Manager
-			</p>
-
-		</h1>
-
-
-		<div id="header">
-			<span class="quicklink"><a href="mainpage.php">Home</a></span> <span
-				class="quicklink"><a href="newRecord.php">Add New Record</a></span>
-			<span class="quicklink"><a href="raidRecord.php">Raid Record</a></span>
-			<span class="quicklink"><a href="memberDetail.php">Members Detail</a></span>
-			<span class="quicklink"><a href="memberChange.php">Add/Remove Members</a></span>
-			<span class="welcome"><?php echo "Welcome ! Dear User "?></span><span
-				class="welcome" id="username"><?php echo $username;?></span> <span
-				class="logout"><a href="rsmLogout.php">Log out</a></span>
-		</div>
-	</header>
-	<section>
-		<p class="titles">New Record</p>
-		<div id="newRecord">
-			<form id="record" action="newRecord.php" method="post">
-				<table id="summary">
-					<tr>
-						<td><p>Battle Area:</p></td>
-						<td><input class="right_msg" type="text" name="area" size="20" /></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td><p>DATE</p></td>
-						<td><input class="right_msg" type="datetime-local" name="date" /></td>
-					</tr>
-					<tr>
-						<td><p>TOTAL DPS:</p></td>
-						<td><input class="right_msg" type="text" name="tdps" size="20" /></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td><p>TOTAL TIME:</p></td>
-						<td><input class="right_msg" type="time" name="time" /></td>
-						<td></td>
-					</tr>
-				</table>
-
-				<br /> <br />
-				<table>
-					<tr>
-						<td><p>Member Name</p></td>
-						<td><p>Attendance(Y/N)</p></td>
-						<td><p>DPS</p></td>
-						<td><p>Mistakes</p></td>
-						<td><p>Deaths</p></td>
-						<td><p>BP(+/-)</p></td>
-					</tr>
-				<?php
-    while ($row = $members->fetch_assoc()) {
-
-        ?>
+								<br />
+								<table class="textac widthfull">
+									<tr class="titles">
+										<td><p>MemberName</p></td>
+										<td width="25%"><p>Attendance(Y/N)</p></td>
+										<td width="10%"><p>DPS</p></td>
+										<td width="15%"><p>Mistake Times</p></td>
+										<td width="15%"><p>Death Times</p></td>
+										<td width="10%"><p>BP(+/-)</p></td>
+									</tr>
+							<?php
+                        while ($row = $members->fetch_assoc()) {
+                            ?>
 				<tr>
-						<td><?=$row["uname"]?><input type="hidden" name="uname[]"
-							value="<?=$row["uname"]?>" /></td>
-						<td><input class="right_msg" type="text" name="atd[]" size="5" /></td>
-						<td><input class="right_msg" type="text" name="dps[]" size="5" /></td>
-						<td><input class="right_msg" type="text" name="mistake[]" size="5" />times</td>
-						<td><input class="right_msg" type="text" name="death[]" size="5" />times</td>
-						<td><input class="right_msg" type="text" name="bp[]" size="5" /></td>
-					</tr>
+										<td><?=$row["uname"]?><input type="hidden" name="uname[]" value="<?=$row["uname"]?>" /></td>
+										<td><input class="right_msg" type="text" name="atd[]" size="5" /></td>
+										<td><input class="right_msg" type="text" name="dps[]" size="5" /></td>
+										<td><input class="right_msg" type="text" name="mistake[]" size="5" /></td>
+										<td><input class="right_msg" type="text" name="death[]" size="5" /></td>
+										<td><input class="right_msg" type="text" name="bp[]" size="5" /></td>
+									</tr>
 					
 				<?php }?>
 		</table>
-				<tr>
-					<td></td>
-					<td> 
-							<?php if( isset( $error1 ) ):?>
-                            <p class="err_msg"><?php echo $error1;?></p>
-                            <?php endif;?>
-                       </td>
-				</tr>
-				</table>
-				<p class="titles">Dropped Items</p>
-				<table>
-					<tr>
-						<td>item1<input class="right_msg" type="text" name="item1"
-							size="5" /></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>item2<input class="right_msg" type="text" name="item2"
-							size="5" /></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>item3<input class="right_msg" type="text" name="item3"
-							size="5" /></td>
-					</tr>
-					<tr>
-						<td>item4<input class="right_msg" type="text" name="item4"
-							size="5" /></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>item5<input class="right_msg" type="text" name="item5"
-							size="5" /></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>item6<input class="right_msg" type="text" name="item6"
-							size="5" /></td>
-					</tr>
-				</table>
 
-				<p>
-					<input class="right_msg" type="submit" name="record" value="record" />
-				</p>
-			</form>
+								<br />
+								<p class="titles">DroppedItems</p>
+								<table class="history-box widthfull">
+									<tr>
+										<td>Item1:</td>
+										<td><input class="right_msg" type="text" name="item1"
+											size="15" /></td>
+										<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+										<td>Item2:</td>
+										<td><input class="right_msg" type="text" name="item2"
+											size="15" /></td>
+										<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+										<td>Item3:</td>
+										<td><input class="right_msg" type="text" name="item3"
+											size="15" /></td>
+									</tr>
+									<tr>
+										<td>Item4:</td>
+										<td><input class="right_msg" type="text" name="item4"
+											size="15" /></td>
+										<td></td>
+										<td>Item5:</td>
+										<td><input class="right_msg" type="text" name="item5"
+											size="15" /></td>
+										<td></td>
+										<td>Item6:</td>
+										<td><input class="right_msg" type="text" name="item6"
+											size="15" /></td>
+									</tr>
+								</table>
+								
+								<div class="btn-add textac">
+									<input class="right_msg btn" type="submit" name="record" value="AddRecord" />
+								</div>
+							</form>
+						</div>
+					</div>
+				</td>
+				<td width="25%"><img style="height: 600px"
+					src="artResources/character2.jpg" alt="" class="img fr" /></td>
+			</tr>
 		
-<?php
-$con->close();
-?>
-	</div>
-	</section>
-	<hr />
-	<footer> copy right @gaoha202</footer>
-
+	</table>
+	<?php
+    $con->close();
+    ?>
+	<footer>&copy;gaoha202@uregina.ca</footer> </main>
 </body>
 </html>

@@ -33,6 +33,15 @@ if (isset($_POST["remove"])) {
 
 $comm = "SELECT * FROM Comments WHERE uid ='$user_id' ORDER BY date DESC LIMIT 10";
 $com = $con->query($comm);
+
+$history = "SELECT * FROM History WHERE uid = '$user_id' ORDER BY date DESC LIMIT 5";
+$his = $con->query($history);
+
+$bp = "SELECT * FROM Members WHERE uid='$user_id' LIMIT 8";
+$p = $con->query($bp);
+
+$obtained = "SELECT * FROM Obtained WHERE uid='$user_id'ORDER BY date DESC LIMIT 8";
+$obt = $con->query($obtained);
 ?>
 <!DOCTYPE>
 <html dir="ltr" lang="en" xml:lang="en">
@@ -64,8 +73,8 @@ $com = $con->query($comm);
 	<table style="margin-bottom: 10px">
 		<tbody>
 			<tr>
-				<td width="25%"><img style="height:800px" src="artResources/character1.jpg" alt=""
-					class="img" /></td>
+				<td width="25%"><img style="height: 900px"
+					src="artResources/character1.jpg" alt="" class="img" /></td>
 				<td width="50%">
 					<div class="history-box">
 						<div class="title cl">
@@ -89,8 +98,6 @@ $com = $con->query($comm);
 									border="0" cellpadding="0" cellspacing="0">
 									<tbody>
 										<?php
-        $history = "SELECT * FROM History WHERE uid = '$user_id' ORDER BY date DESC LIMIT 5";
-        $his = $con->query($history);
         while ($row = $his->fetch_assoc()) {
             ?>
 				<tr>
@@ -98,14 +105,12 @@ $com = $con->query($comm);
 											<td><p><?=$row["date"]?></p></td>
 											<td><p><?=$row["dps"]?></p></td>
 											<td><p><?=$row["time"]?></p></td>
-										</tr>
-				
+										</tr>			
 				<?php }?>
 									</tbody>
 								</table>
 							</div>
 						</div>
-
 						<div class="s-table-box history-box fl">
 							<div class="title cl">
 								<h3>BP</h3>
@@ -126,15 +131,12 @@ $com = $con->query($comm);
 										border="0" cellpadding="0" cellspacing="0">
 										<tbody>
 										<?php
-        $bp = "SELECT * FROM Members WHERE uid='$user_id' LIMIT 8";
-        $p = $con->query($bp);
         while ($row = $p->fetch_assoc()) {
             ?>
 				<tr>
 												<td width="50%"><P><?=$row["uname"]?></P></td>
 												<td width="50%"><p><?=$row["BP"]?></p></td>
 											</tr>
-				
 				<?php }?>
 									</tbody>
 									</table>
@@ -161,22 +163,18 @@ $com = $con->query($comm);
 										border="0" cellpadding="0" cellspacing="0">
 										<tbody>
 										<?php
-        $obtained = "SELECT * FROM Obtained WHERE uid='$user_id' LIMIT 8";
-        $obt = $con->query($obtained);
         while ($row = $obt->fetch_assoc()) {
             ?>
 				<tr>
 												<td width="50%"><P><?=$row["uname"]?></P></td>
 												<td width="50%"><p><?=$row["item"]?></p></td>
 											</tr>
-				
 	<?php }?>
 									</tbody>
 									</table>
 								</div>
 							</div>
 						</div>
-
 						<div style="padding-top: 290px">
 							<div>
 								<h3>Comments</h3>
@@ -191,7 +189,6 @@ $com = $con->query($comm);
 											<tr>
 												<td><textarea class="comments" name="comments"></textarea></td>
 											</tr>
-
 										</tbody>
 									</table>
 
@@ -200,7 +197,6 @@ $com = $con->query($comm);
 									</p>
 								</form>
 							</div>
-
 							<div class="history-table">
 								<div class="table-head"></div>
 								<div class="table-body1 progress_scroll">
@@ -214,40 +210,37 @@ while ($row = $com->fetch_assoc()) {
 													<td><p>User:<?=$row["uname"]?></p></td>
 													<td><p>Date:<?=$row["date"]?></p></td>
 												</tr>
-											<tr>
-												<td style="word-break:break-all"><p>Comments: <?=$row["comments"]?> </p></td>
-												<td><input type="hidden" name="id"
-													value=<?=$row["comments_id"]?>></td>
-												<td><input type="submit" name="remove" value="remove" /></td>
-											</tr>
-											<tr>
-												<td>&nbsp;</td>
-											</tr>
-
+												<tr>
+													<td style="word-break: break-all"><?=$row["comments"]?></td>
+													<td><input type="hidden" name="id"
+														value=<?=$row["comments_id"]?>></td>
+													<td><input type="submit" name="remove" value="Delete" /></td>
+												</tr>
+												<tr>
+													<td>&nbsp;</td>
+												</tr>
 											</form>
 										<?php
 }
-
 $con->close();
-?>			
+?>						
 									
 									
 									
 									
 									</table>
-			<br />
-
-
-
-			</div>
-			</div>
-			</div>
-
-			</td>
-			<td width="25%"><img style="height:800px" src="artResources/character2.jpg" alt="" class="img fr" /></td>
+									<br />
+								</div>
+							</div>
+						</div>
+				
+				</td>
+				<td width="25%"><img style="height: 900px"
+					src="artResources/character2.jpg" alt="" class="img fr" /></td>
 			</tr>
 		</tbody>
 	</table>
+
 
 	<hr />
 	<footer>&copy;gaoha202@uregina.ca</footer> </main>

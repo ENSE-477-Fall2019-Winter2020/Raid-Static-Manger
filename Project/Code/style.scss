@@ -23,7 +23,6 @@ li {
 .clearfix {
   zoom: 1;
 }
-// 滚动条样式
 .progress_scroll::-webkit-scrollbar {
 	width: 5px;
 }
@@ -36,7 +35,6 @@ li {
 	border-radius: 10px;
 }
 // style
-// 版心宽度
 .main-width {
 	width: 1000px;
   margin: 0 auto;
@@ -44,12 +42,10 @@ li {
   
 }
 body {
-  // 背景图
-	background: url(../images/con2.jpg) 0 0 repeat; 
+
   font-size: 14px;
 }
 .header {
-	background: url(./images/top.jpg) center top no-repeat;
 	height: 316px;
 	text-indent: -9999px;
 }

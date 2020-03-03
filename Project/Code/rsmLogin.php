@@ -20,7 +20,7 @@ if (isset($_POST["Login"])) {
             $_SESSION["uid"] = $row["uid"];
             $_SESSION["uname"] = $row["uname"];
             $error = ("Login successful");
-            header("Location: mainpage.php?=");
+            header("Location: mainpage.php?uid={$_SESSION["uid"]}");
         } else {
 
             $error = ("The username/password combination was incorrect.");

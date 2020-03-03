@@ -14,131 +14,141 @@ if (! isset($_SESSION["uid"])) {
 }
 
 ?>
-<!DOCTYPE>
-<html>
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xml:lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="rsmADD.css" type="text/css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" href="raidRecord.css">
+<title>Rercord List</title>
 </head>
+
 <body>
-
-	<header>
-		<h1>
-			<p>
-				<img src="ffxiv.png" alt="" style="position: inline" width="100%"
-					height="20%" />Raid Static Manager
-			</p>
-
-		</h1>
-
-
-		<div id="header">
-			<span class="quicklink"><a href="mainpage.php">Home</a></span> <span
-				class="quicklink"><a href="newRecord.php">Add New Record</a></span><span
-				class="quicklink"><a href="raidRecord.php">Raid Record</a></span> <span
-				class="quicklink"><a href="memberDetail.php">Members Detail</a></span>
-			<span class="quicklink"><a href="memberChange.php">Add/Remove Members</a></span>
-			<span class="welcome"><?php echo "Welcome ! Dear User "?></span><span
-				class="welcome" id="username"><?php echo $username;?></span> <span
-				class="logout"><a href="rsmLogout.php">Log out</a></span>
-		</div>
-	</header>
-	<section>
-		<div class="content">
-			<div id="recordList">
-                <?php
-                $history = "SELECT * FROM History WHERE uid = '$user_id' ORDER BY date DESC LIMIT 8";
-                $his = $con->query($history);
-                while ($row = $his->fetch_assoc()) {
-                    ?>
-                    <div class="summary">
-					<table>
-						<tr>
-							<td><p class="titles"><?=$row['location'];?></p></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-
-							<td>Date:</td>
-							<td> <?=$row['date'];?> </td>
-
-						</tr>
-						<tr>
-							<td><p>DPS:</p></td>
-							<td><?=$row["dps"]?></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-
-							<td><p>Total Time:</p></td>
-							<td><?=$row["time"]?></td>
-						</tr>
+	<header></header>
+	<nav class="nav clearfix">
+		<ul>
+			<li class="nav-item"><a href="mainpage.php">Home</a></li>
+			<li class="nav-item"><a href="newRecord.php">Add New Record</a></li>
+			<li class="nav-item"><a href="raidRecord.php">Raid Record</a></li>
+			<li class="nav-item"><a href="memberDetail.php">Members Detail</a></li>
+			<li class="nav-item"><a href="memberChange.php">Add/Remove Members</a></li>
+		</ul>
+		<ul class="fr">
+			<li class="nav-item">
+				<?php echo "Welcome ! Dear User ";echo $username; ?>
+			</li>
+			<li class="nav-item"><a href="rsmLogout.php">Log out</a></li>
+		</ul>
+	</nav>
+	<main class="clearfix">
+	<table style="margin-bottom: 10px">
+		<tbody>
+			<tr>
+				<td width="25%"><img style="height: 600px"
+					src="artResources/character1.jpg" alt="" class="img" /></td>
+				<td width="50%">
+					<div class="history-box">
+						<div class="title cl">
+							<h3>RecordList</h3>
 						</div>
-					</table>
-					<br />
-					<table>
-						<tr>
-							<td>Member Name</td>
-							<td>Attendance(Y/N)</td>
-							<td>DPS</td>
-							<td>Mistakes</td>
-							<td>Deaths</td>
-							<td>BP(+/-)</td>
-						</tr>
-
-                                    <?php
-                    $tmp_sql = "select * from Performance where uid = '$user_id' and battle_id = {$row['battle_id']}";
-                    $performance_list = $con->query($tmp_sql);
-                    while ($tmp_row = $performance_list->fetch_assoc()) {
-                        ?>
-                                    <tr>
-							<td><?=$tmp_row['members_name'];?></td>
-							<td><?=$tmp_row['attendance'];?></td>
-							<td><?=$tmp_row['dps'];?></td>
-							<td><?=$tmp_row['mistake'];?></td>
-							<td><?=$tmp_row['death'];?></td>
-							<td><?=$tmp_row['bp'];?></td>
-						</tr>
-                                    <?php }?>
-                                </table>
-					<br />
-					
-							<p>Dropped Items</p>
-						<table>
-						<tr>
-                                    <?php
-                    $tmp_sql = "select * from Dropped where uid = '$user_id' and battle_id = {$row['battle_id']}";
-                    $drop_list = $con->query($tmp_sql);
-                    while ($tmp_row = $drop_list->fetch_assoc()) {
-                        $id = $tmp_row['item_id'];
-                        ?>
-                         
-                         <td>Item:</td>
-							<td><a href="itemAuction.php?item_id=<?=$tmp_row['item_id']?>"><?=$tmp_row['item_name'];?></a></td>
-						<td></td><td></td><td></td><td></td>
-                                    <?php }?>
-                                    </tr>
-                                </table>
-
-					<hr />
-                <?php }?>
-            </div>
-			</div>
-	
-	</section>
-
-	<hr />
-	<footer> copy right @gaoha202</footer>
-    <?php
-    $con->close();
+						<div class="history-table" style="border: 0px">
+							<div class="table-body2  progress_scroll"
+								style="height: 520px; overflow-y: visible;">
+								
+								<div style="border: 2px solid black;">
+ <?php
+$history = "SELECT * FROM History WHERE uid = '$user_id' ORDER BY date DESC LIMIT 8";
+$his = $con->query($history);
+while ($row = $his->fetch_assoc()) {
     ?>
-</body>
+									<table style="border-collapse: collapse;" width="100%"
+										border="0" cellpadding="0" cellspacing="0">
+										<tbody>
+											<tr>
+												<td><h2 ><?=$row['location'];?></h2></td>
+											</tr>
+											<tr style="border-top: 1px solid black">
+												<td><?=$row['date'];?></td>
+												<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+												<td>TotalDPS:&nbsp;<?=$row["dps"]?></td>
+												<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+												<td>TotalTime:&nbsp;<?=$row["time"]?></td>
+											</tr>
+										</tbody>
+									</table>
+									
+									<table class="textac"
+										style="border-collapse: collapse; color: #a2adde;"
+										width="100%" border="0" cellpadding="0" cellspacing="0">
+										<tbody>
+											<tr>
+												<td><p>MemberName</p></td>
+												<td width="20%"><p>Attendance(Y/N)</p></td>
+												<td width="10%"><p>DPS</p></td>
+												<td width="15%"><p>MistakeTimes</p></td>
+												<td width="15%"><p>DeathTimes</p></td>
+												<td width="10%"><p>BP(+/-)</p></td>
+											</tr>
+											
+                                    <?php
+    $plist = "select * from Performance where uid = '$user_id' and battle_id = {$row['battle_id']}";
+    $perfList = $con->query($plist);
+    while ($show_list = $perfList->fetch_assoc()) {
+        ?>
+                                    <tr>
+												<td><?=$show_list['members_name'];?></td>
+												<td><?=$show_list['attendance'];?></td>
+												<td><?=$show_list['dps'];?></td>
+												<td><?=$show_list['mistake'];?></td>
+												<td><?=$show_list['death'];?></td>
+												<td><?=$show_list['bp'];?></td>
+											</tr>
+                                    <?php }?>
+											
+										</tbody>
+									</table>
+
+									<table style="border-collapse: collapse;" width="80%"
+										border="0" cellpadding="0" cellspacing="0">
+										<tbody>
+											<tr>
+												<td><h4>Dropped Items:</h4></td>
+											</tr>
+											<tr>
+												<?php
+                    $item = "select * from Dropped where uid = '$user_id' and battle_id = {$row['battle_id']}";
+                    $items = $con->query($item);
+                    while ($itemList = $items->fetch_assoc()) {
+                        $id = $itemList['item_id'];
+                        ?>
+
+												<td>Item:&nbsp;</td>
+												<td><a
+													href="itemAuction.php?item_id=<?=$itemList['item_id']?>"><?=$itemList['item_name'];?></a></td>
+												<?php }?>
+											  </tr>
+										</tbody>
+									</table>
+									<hr />
+									<?php }?>
+									<br />
+								</div>
+								<div class="history-box"
+									style="color: #ff0000; text-align: center;">&copy;gaoha202@uregina.ca</div>
+							</div>
+						</div>
+					</div>
+				</td>
+				<td width="25%"><img style="height: 600px"
+					src="artResources/character2.jpg" alt="" class="img fr" /></td>
+			</tr>
+		</tbody>
+	</table>
+	</main>
+</body>		
 </html>
+	<?php
+$con->close();
+?>		

@@ -1,0 +1,300 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.widthfull 
+{
+	width:100%;
+}
+
+.textac
+{
+	text-align:center;	
+}
+
+.textac td
+{
+	border:1px solid black
+}
+
+.valignt
+{
+    vertical-align:top;
+}
+
+li {
+  list-style: none;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.img
+{
+	 width:90% ;
+	 height:270%;
+}
+
+.img1
+{
+	 width:90% ;
+	 height:170%;
+}
+
+.clearfix:after {
+  content: '.';
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.clearfix {
+  zoom: 1;
+}
+
+.progress_scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+body {
+  background:  0 0 repeat;
+  font-size: 14px;
+  background-color: linen;
+}
+
+header {
+  background: url(artResources/ffxiv.png) center top no-repeat;
+  height: 316px;
+  text-indent: -9999px;
+   
+}
+
+footer {
+	color: #ff0000;
+	text-align: center;
+}
+
+textarea {
+	border-style: inset;
+	border-width: 3px;
+	width: 700px;
+	height: 70px;
+}
+
+.nav {
+  height: 50px;
+  background: lightblue;
+  font-size: 18px;
+  color: #fff;
+  line-height: 50px;
+  padding: 0 40px;
+}
+
+.nav .nav-item {
+  float: left;
+  text-align: center;
+  border-right: 1px solid #4a5288;
+  padding: 0 26px;
+}
+
+.history-box {
+  padding-top: 10px;
+}
+
+.btn-add {
+  margin-top: 30px;
+}
+
+.quicklink
+{
+	-webkit-box-sizing: content-box;-moz-box-sizing: content-box;
+	box-sizing: content-box;float: none;z-index: auto;width: auto;height: auto;position: static;
+	cursor: pointer;opacity: 1;margin: 0;padding: 0 20px;
+	overflow: visible;border: none;/* -webkit-border-radius: 20px; */border-radius: 20px;
+	font: normal normal bold 20px/40px "Baumans", Helvetica, sans-serif;color: black;
+	-o-text-overflow: clip;/* text-overflow: clip; */background: rgb(221, 221, 221);
+	-webkit-box-shadow: 0 1px 0 0 rgb(119,119,119) , 0 2px 0 0 rgb(119,119,119) , 0 3px 0 0 rgb(119,119,119) , 0 4px 0 0 rgb(119,119,119) , 0 5px 0 0 rgb(119,119,119) , 0 6px 0 0 rgb(119,119,119) , 0 0 5px 0 rgba(0,0,0,0.0980392) , 0 1px 3px 0 rgba(0,0,0,0.298039) , 0 3px 5px 0 rgba(0,0,0,0.2) , 0 5px 10px 0 rgba(0,0,0,0.247059) , 0 10px 10px 0 rgba(0,0,0,0.2) , 0 20px 20px 0 rgba(0,0,0,0.14902);
+	box-shadow: 0 1px 0 0 rgb(119,119,119) , 0 2px 0 0 rgb(119,119,119) , 0 3px 0 0 rgb(119,119,119) , 0 4px 0 0 rgb(119,119,119) , 0 5px 0 0 rgb(119,119,119) , 0 6px 0 0 rgb(119,119,119) , 0 0 5px 0 rgba(0,0,0,0.0980392) , 0 1px 3px 0 rgba(0,0,0,0.298039) , 0 3px 5px 0 rgba(0,0,0,0.2) , 0 5px 10px 0 rgba(0,0,0,0.247059) , 0 10px 10px 0 rgba(0,0,0,0.2) , 0 20px 20px 0 rgba(0,0,0,0.14902);
+	text-shadow: 0 1px 0 #FFFFFF;-webkit-transition: none;-moz-transition: none;-o-transition: none;transition: none;-webkit-transform: none;transform: none;-webkit-transform-origin: 50% 50% 0;transform-origin: 50% 50% 0;
+}
+
+h3
+{
+	font-size: 20px;
+  font-family: "Microsoft Yahei";
+  color: #fcc70e;
+  line-height: 37px;
+  height: 37px;
+  background:  0 0 no-repeat;
+  text-indent: 0px;
+}
+.history-table {
+  padding-top: 0px;
+  border:2px solid black;
+}
+
+.history-table .table-head {
+  background: lightblue;
+}
+
+.history-table .table-head td {
+  height: 35px;
+  line-height: 35px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.history-table .table-body {
+  height: 185px;
+  overflow-y: auto;
+  font-size: 16px;
+  color: #a2adde;
+}
+
+.history-table .table-body1 {
+  height: 185px;
+  overflow-y: auto;
+  font-size: 16px;
+  color: #a2adde;
+}
+
+.history-table .table-body2 {
+  height: 185px;
+  overflow-y: auto;
+  font-size: 16px;
+}
+
+.history-table .table-body3 {
+  height: 120px;
+  overflow-y: auto;
+  border:1px solid #a4b4e7;
+}
+
+.padr
+{
+    padding-right:60px
+}
+
+.padl
+{
+  padding-left:10px;
+}
+
+.history-table .table-body td {
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+}
+
+.history-table .table-body1 td {
+  height: 22px;
+  line-height: 22px;
+  padding-left:10px;
+}
+
+.history-table .table-body2 td {
+  height: 22px;
+  line-height: 22px;
+  padding-left:10px;
+}
+
+.history-table .table-body .shuz {
+  margin-top: 0px;
+  margin-left: 20px;
+  width: 35px;
+  height: 35px;
+  display: block;
+  background: #3d4473;
+  border-radius: 90px;
+  font-size: 14px;
+  text-align: center;
+  line-height: 35px;
+  color: #fff;
+}
+
+.btn 
+{
+  border-radius: 10px;
+  padding: 0 10px;
+}
+
+input 
+{
+   border-radius: 2px;
+}
+
+.s-table-box {
+  width: 50%;
+}
+
+.s-table-box table {
+  font-size: 16px;
+  text-align: center;
+  border-collapse: collapse;
+}
+
+.s-table-box table tbody tr {
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+}
+
+.err_msg {
+	color: red;
+	text-decoration: underline;
+}
+
+.welcome {
+	position: relative;
+	left: 420px;
+}
+
+#username {
+	color: gray;
+}
+
+.titles {
+	font-family: 'SouciSansRegular';
+	src: url('SOUCISAN.eot');
+	src: local('SouciSans'), local('SouciSans'), url('SOUCISAN.woff')
+		format('woff'), url('SOUCISAN.ttf') format('truetype');
+	font: 16px bold normal SouciSansRegular;
+}
+
+.logout {
+	position: absolute;
+	right: 2%;
+	top:260px;
+	height:35px;
+}
+
+#History{
+	position:relative;
+	border: 1px solid black;
+}
+
+#Members{
+	position:relative;
+	border: 1px solid black;
+}
+
+#item{
+	position:relative;
+	border: 1px solid black;
+}
+
+.load{
+	position: relative;
+  	left: 300px;
+}
+/*# sourceMappingURL=style.css.map */

@@ -13,90 +13,116 @@ if (! isset($_SESSION["uid"])) {
     }
 }
 
-$detail = "SELECT Members.uname,Members.job,Members.BP,Obtained.item FROM Members LEFT JOIN Obtained ON Members.uname = Obtained.uname WHERE Members.uid = '$user_id' ";
-$details = $con->query($detail);
+$members = "SELECT * FROM Members WHERE uid = '$user_id' ";
+$mname = $con->query($members);
+
 ?>
-<!DOCTYPE>
-<html>
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xml:lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="rsmDetail.css" type="text/css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" href="style.css">
+<title>Members Detail</title>
 </head>
+
 <body>
+	<header></header>
+	<nav class="nav clearfix">
+		<ul>
+			<li class="nav-item"><a href="mainpage.php">Home</a></li>
+			<li class="nav-item"><a href="newRecord.php">Add New Record</a></li>
+			<li class="nav-item"><a href="raidRecord.php">Raid Record</a></li>
+			<li class="nav-item"><a href="memberDetail.php">Members Detail</a></li>
+			<li class="nav-item"><a href="memberChange.php">Add/Remove Members</a></li>
+		</ul>
+		<ul class="fr">
+			<li class="nav-item">
+				<?php echo "Welcome ! Dear User ";echo $username; ?></li>
+			<li class="nav-item"><a href="rsmLogout.php">Log out</a></li>
+		</ul>
+	</nav>
+	<!-- main -->
+	<main>
+	<table style="margin-bottom: 10px">
+		<tbody>
+			<tr>
+				<td width="25%"><img style="height: 600px"
+					src="artResources/character1.jpg" alt="" class="img" /></td>
+				<td width="50%">
+					<div class="history-box">
+						<div class="title cl">
+							<h3>Member Items List</h3>
+						</div>
+						<div class="history-table">
+							<div class="table-body2 progress_scroll" style="height: 520px">
+								<div style="border-collapse: collapse;" width="100%" border="0"
+									cellpadding="0" cellspacing="0">
 
-	<header>
-		<h1>
-			<p>
-				<img src="ffxiv.png" alt="" style="position: inline" width="100%"
-					height="20%" />Raid Static Manager
-			</p>
+									<?php
+        while ($row = $mname->fetch_assoc()) {
+            ?>
+									<div class="history-box padl">
+										<span class="padr">
+											<?=$row["uname"]?>
+										</span> <span class="padr">Job : <?=$row["job"]?></span> <span>BP:<?=$row["BP"]?></span>
+									</div>
+									<div class="history-box padl">Item Obtained:</div>
+									<div class="table-body3 progress_scroll">
+										<table style="border-collapse: collapse;" width="100%"
+											border="0" cellpadding="0" cellspacing="0">
+											<tbody>
+											
+												
+											<?php
+            $item = "SELECT * FROM Obtained WHERE uname = '{$row["uname"]}' AND uid = '$user_id'";
+            $items = $con->query($item);
+            while ($item_list = $items->fetch_assoc()) {
+                ?>
+												<tr>
+													<td width="35%">
+														<?=$item_list["item"]?>
+													</td>
+												
+													<?php
 
-		</h1>
+                $count = "SELECT item,count(*) as count from Obtained WHERE item = '{$item_list["item"]}' AND uname = '{$row["uname"]}' AND uid = '$user_id' group by item";
+                $counts = $con->query($count);
+                while ($number = $counts->fetch_assoc()) {
+                    ?>		
+                   
+													<td>
+														*<?=$number["count"]?>
+													</td>
+													
+												</tr>
+
+												
+												<?php }?>
+												
+												
+			<?php }?>
+											</tbody>
+										</table>
+									</div>
+								<?php }?>
+		
+								</div>
 
 
-		<div id="header">
-			<span class="quicklink"><a href="mainpage.php">Home</a></span> <span
-				class="quicklink"><a href="newRecord.php">Add New Record</a></span><span
-				class="quicklink"><a href="raidRecord.php">Raid Record</a></span> <span
-				class="quicklink"><a href="memberDetail.php">Members Detail</a></span>
-			<span class="quicklink"><a href="memberChange.php">Add/Remove Members</a></span>
-			<span class="welcome"><?php echo "Welcome ! Dear User "?></span><span
-				class="welcome" id="username"><?php echo $username;?></span> <span
-				class="logout"><a href="rsmLogout.php">Log out</a></span>
-		</div>
-	</header>
-	<section>
-		<form id="rsmADD" action="memberChange.php" method="post"
-			enctype="multipart/form-data">
-			<div id="Members">
-				<p class="titles">Static Members List</p>
-				<?php
-    while ($row = $details->fetch_assoc()) {
-        ?>
-				<table id="membersList">
-					<tr>
-						<td><p>Name:</p></td>
-						<td><P><?=$row["uname"]?></P></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td><p>JOB:</p></td>
-						<td><p><?=$row["job"]?></p></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td><p>BP:</p></td>
-						<td><p><?=$row["BP"]?></p></td>
-					</tr>
-				</table>
 
-				<div id="item">
-					<p class="titles">items :</p>
-					<p><?=$row["item"]?></p>
-				</div>
-				<br />				
-		<?php }?>
-		
-		
-		
-		
-		
-		
-		</form>
-<?php
-$con->close();
-?>
-	</div>
-	</section>
-	<hr />
-	<footer> copy right @gaoha202</footer>
-
+							</div>
+						</div>
+					</div>
+				</td>
+				<td width="25%"><img style="height: 600px"
+					src="artResources/character2.jpg" alt="" class="img fr" /></td>
+			</tr>
+		</tbody>
+	</table>
+	<footer>&copy;gaoha202@uregina.ca</footer> </main>
 </body>
 </html>

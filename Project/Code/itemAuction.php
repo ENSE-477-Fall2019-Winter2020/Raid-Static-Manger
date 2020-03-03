@@ -22,63 +22,72 @@ if (! isset($_SESSION["uid"])) {
 $tmp_sql = "SELECT * FROM Dropped WHERE item_id = '$item_id'";
 $result = $con->query($tmp_sql);
 $dropped_info = $result->fetch_assoc();
+
 if (! $dropped_info) {
     header("location:itemAuction.php?item_id='$item_id'");
     exit(0);
 }
 
 if (isset($_POST["bid"])) {
-    
+
     $mname = $_POST["mname"];
     $job = $_POST["job"];
     $mbp = $_POST["mbp"];
     $battle_id = $dropped_info['battle_id'];
     $uid = $dropped_info['uid'];
-    
-    $add = "INSERT INTO Auction(item_id, members_name, job,bp, date,battle_id,uid) VALUES ('$item_id', '$mname','$job','$mbp',NOW(),'$battle_id','$uid')";
-    $added = $con->query($add);
-    header("location:itemAuction.php?item_id=$item_id");
-    exit(0);
+
+    if ($mname==""||$job==""||$mbp == "") {
+        $error = "Input cannot be empty!";
+    } else {
+        $error = "";
+        $add = "INSERT INTO Auction(item_id, members_name, job,bp, date,battle_id,uid) VALUES ('$item_id', '$mname','$job','$mbp',NOW(),'$battle_id','$uid')";
+        $added = $con->query($add);
+        header("location:itemAuction.php?item_id=$item_id");
+       
+    }
+  
 }
+
+$bid = "select * from Auction WHERE item_id = '$item_id' LIMIT 8";
+$bids = $con->query($bid);
 ?>
 <!DOCTYPE>
-<html>
+<html dir="ltr" lang="en" xml:lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="rsmMain.css" type="text/css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" href="rsmMain.css">
+<link rel="stylesheet" type="text/css" href="error.css" />
+
+<title>MainPage</title>
 </head>
 <body>
-
-	<header>
-		<h1>
-			<p>
-				<img src="ffxiv.png" alt="" style="position: inline" width="100%"
-					height="20%" />Raid Static Manager
-			</p>
-
-		</h1>
-
-
-		<div id="header">
-			<span class="quicklink"><a href="mainpage.php">Home</a></span> <span
-				class="quicklink"><a href="newRecord.php">Add New Record</a></span><span
-				class="quicklink"><a href="raidRecord.php">Raid Record </a></span> <span
-				class="quicklink"><a href="memberDetail.php">Members Detail</a></span>
-			<span class="quicklink"><a href="memberChange.php">Add/Remove Members</a></span>
-			<span class="welcome"><?php echo "Welcome ! Dear User "?></span><span
-				class="welcome" id="username"><?php echo $username;?></span> <span
-				class="logout"><a href="rsmLogout.php">Log out</a></span>
-		</div>
-	</header>
-	<section>
+	<header></header>
+	<nav class="nav clearfix">
+		<ul>
+			<li class="nav-item"><a href="mainpage.php">Home</a></li>
+			<li class="nav-item"><a href="newRecord.php">Add New Record</a></li>
+			<li class="nav-item"><a href="raidRecord.php">Raid Record </a></li>
+			<li class="nav-item"><a href="memberDetail.php">Members Detail</a></li>
+			<li class="nav-item"><a href="memberChange.php">Add/Remove Members</a></li>
+		</ul>
+		<ul class="fr">
+			<li class="nav-item"><?php echo "Welcome ! Dear User ";  echo $username;?></li>
+			<li class="nav-item"><a href="rsmLogout.php">Log out</a></li>
+		</ul>
+	</nav>
+	<main class="clearfix">
 
 		<div id="auctions">
 			<p>Auction : <?=$dropped_info['item_name'];?></p>
 			<form class="rsmadd" action="itemAuction.php?item_id=<?=$item_id;?>"
 				method="post" enctype="multipart/form-data">
 				<tr>
-					<td>Member Name:</td>
+					<p class="err_msg"><?php echo "$error";?></p>
+				</tr>
+				<tr>
+					<td>Member Name (full):</td>
 					<td><input class="right_msg" type="text" name="mname" size="20" /></td>
 					<td>Job:</td>
 					<td><input class="right_msg" type="text" name="job" size="5" /></td>
@@ -96,14 +105,12 @@ if (isset($_POST["bid"])) {
 					<td><p>BP</p></td>
 				</tr>
 				 <?php
-    $tmp_sql = "select * from Auction WHERE item_id = '$item_id' LIMIT 8";
-    $bid_list = $con->query($tmp_sql);
-    while ($tmp_row = $bid_list->fetch_assoc()) {
+    while ($list = $bids->fetch_assoc()) {
         ?><tr>
 
-					<td><?=$tmp_row["members_name"]?></td>
-					<td><p><?=$tmp_row["job"]?></p></td>
-					<td><p><?=$tmp_row["bp"]?></p></td>
+					<td><?=$list["members_name"]?></td>
+					<td><p><?=$list["job"]?></p></td>
+					<td><p><?=$list["bp"]?></p></td>
 				</tr>
                                     <?php }?>
                                     
