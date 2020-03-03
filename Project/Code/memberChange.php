@@ -42,7 +42,7 @@ if (isset($_POST["remove"])) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <link rel="stylesheet" href="style.css">
-<title>Members Detail</title>
+<title>Members Change</title>
 </head>
 
 <body>
@@ -74,7 +74,7 @@ if (isset($_POST["remove"])) {
 				<td width="50%">
 					<div class="history-box">
 						<div class="title cl">
-							<h3>MemberItemList</h3>
+							<h3>Change Members</h3>
 						</div>
                           <div style="padding-bottom:10px">
                              <form class="rsmadd" action="memberChange.php" method="post"
