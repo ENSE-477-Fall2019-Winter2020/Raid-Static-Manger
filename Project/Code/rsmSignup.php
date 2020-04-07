@@ -1,5 +1,6 @@
 
 <?php
+//validation
 $validate = true;
 $uname_v = "/^[a-zA-Z0-9_-]+$/";
 $pswd_v = "/^.*(?=.{8,})(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$/";
@@ -9,6 +10,7 @@ $name = $_POST["uname"];
 $password = $_POST["pswd"];
 $cPassword = $_POST["pswdr"];
 
+//connect to databse
 $con = new mysqli("localhost", "gaoha202", "project", "gaoha202");
 if (! $con) {
     echo "error connection";
@@ -23,6 +25,7 @@ if (isset($_POST["reset"])) {
     $error4 = "";
 }
 
+//error checks
 if (isset($_POST["submit"])) {
 
     $query = "select * from User where email = $email";
@@ -70,6 +73,7 @@ if (isset($_POST["submit"])) {
         $error4 = "";
     }
 
+    //insert data
     if ($validate == true) {
         $qu = "INSERT INTO User(uid, email, uname, pwd, date) VALUES (null,'$email','$name','$password', NOW())";
         $result = $con->query($qu);

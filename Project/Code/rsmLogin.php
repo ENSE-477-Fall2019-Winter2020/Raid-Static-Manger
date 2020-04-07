@@ -2,10 +2,12 @@
 <?php
 if (isset($_POST["Login"])) {
 
+    // security 
     $email = trim($_POST["email"]);
     $password = trim($_POST["pswd"]);
     if (strlen($email) > 0 && strlen($password) > 0) {
 
+        //connection check
         $con = new mysqli("localhost", "gaoha202", "project", "gaoha202");
         if ($con->connect_error) {
             die("Connection failed: " . $con->connect_error);
@@ -14,6 +16,7 @@ if (isset($_POST["Login"])) {
         $ql = "SELECT uid, uname FROM User WHERE email = '$email' AND pwd = '$password'";
         $result = $con->query($ql);
 
+        //combation check
         if ($row = $result->fetch_assoc()) {
 
             session_start();

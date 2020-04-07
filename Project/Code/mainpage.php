@@ -1,9 +1,12 @@
 <?php
+
+//session
 session_start();
 if (! isset($_SESSION["uid"])) {
     header("Location: rsmLogin.php");
     exit();
 } else {
+    
     $user_id = $_SESSION["uid"];
     $username = $_SESSION["uname"];
 
@@ -13,6 +16,7 @@ if (! isset($_SESSION["uid"])) {
     }
 }
 
+//comments submit
 if (isset($_POST["submit"])) {
     $comments = $_POST["comments"];
     $qc = "INSERT INTO Comments(comments_id, uid, comments, uname, date) values (null, '$user_id','$comments','$username',NOW() )";
@@ -24,13 +28,14 @@ if (isset($_POST["submit"])) {
     }
 }
 
+//comments remove
 if (isset($_POST["remove"])) {
     $id = $_POST["id"];
     $se = "DELETE FROM Comments WHERE uid='$user_id' AND comments_id = '$id'";
     $rm = $con->query($se);
     header("login.php");
 }
-
+//data retriveing
 $comm = "SELECT * FROM Comments WHERE uid ='$user_id' ORDER BY date DESC LIMIT 10";
 $com = $con->query($comm);
 
@@ -193,7 +198,7 @@ $obt = $con->query($obtained);
 									</table>
 
 									<p class="div">
-										<input type="submit" name="submit" value="Add Comment" />
+										<input class="btn" type="submit" name="submit" value="Add Comment" />
 									</p>
 								</form>
 							</div>
@@ -214,7 +219,7 @@ while ($row = $com->fetch_assoc()) {
 													<td style="word-break: break-all"><?=$row["comments"]?></td>
 													<td><input type="hidden" name="id"
 														value=<?=$row["comments_id"]?>></td>
-													<td><input type="submit" name="remove" value="Delete" /></td>
+													<td><input class="btn" type="submit" name="remove" value="Delete" /></td>
 												</tr>
 												<tr>
 													<td>&nbsp;</td>

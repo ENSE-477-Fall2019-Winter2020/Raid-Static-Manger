@@ -1,4 +1,5 @@
 <?php
+//session
 session_start();
 if (! isset($_SESSION["uid"])) {
     header("Location: rsmLogin.php");
@@ -13,9 +14,11 @@ if (! isset($_SESSION["uid"])) {
     }
 }
 
+//data retriving
 $member = "SELECT * FROM Members WHERE uid='$user_id'";
 $members = $con->query($member);
 
+//submit record
 if (isset($_POST["record"])) {
 
     $battleArea = $_POST["area"];

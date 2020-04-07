@@ -1,4 +1,5 @@
 <?php
+//session
 session_start();
 if (! isset($_SESSION["uid"])) {
     header("Location: rsmLogin.php");
@@ -6,7 +7,7 @@ if (! isset($_SESSION["uid"])) {
 } else {
     $user_id = $_SESSION["uid"];
     $username = $_SESSION["uname"];
-
+//connection check
     $con = new mysqli("localhost", "gaoha202", "project", "gaoha202");
     if ($con->connect_error) {
         die("Connection failed: " . $con->connect_error);
@@ -51,7 +52,7 @@ if (! isset($_SESSION["uid"])) {
 				<td width="50%">
 					<div class="history-box">
 						<div class="title cl">
-							<h3>RecordList</h3>
+							<h3>Record List</h3>
 						</div>
 						<div class="history-table" style="border: 0px">
 							<div class="table-body2  progress_scroll"
@@ -59,6 +60,7 @@ if (! isset($_SESSION["uid"])) {
 								
 								<div style="border: 2px solid black;">
  <?php
+ //retriving data
 $history = "SELECT * FROM History WHERE uid = '$user_id' ORDER BY date DESC LIMIT 8";
 $his = $con->query($history);
 while ($row = $his->fetch_assoc()) {
@@ -93,6 +95,7 @@ while ($row = $his->fetch_assoc()) {
 											</tr>
 											
                                     <?php
+                                    //retriving data
     $plist = "select * from Performance where uid = '$user_id' and battle_id = {$row['battle_id']}";
     $perfList = $con->query($plist);
     while ($show_list = $perfList->fetch_assoc()) {
@@ -118,6 +121,7 @@ while ($row = $his->fetch_assoc()) {
 											</tr>
 											<tr>
 												<?php
+												//retriving data
                     $item = "select * from Dropped where uid = '$user_id' and battle_id = {$row['battle_id']}";
                     $items = $con->query($item);
                     while ($itemList = $items->fetch_assoc()) {

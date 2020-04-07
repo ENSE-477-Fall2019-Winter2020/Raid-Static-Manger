@@ -1,9 +1,11 @@
 <?php
+//session check
 session_start();
 if (! isset($_SESSION["uid"])) {
     header("Location: rsmLogin.php");
     exit();
 } else {
+    //set session
     $user_id = $_SESSION["uid"];
     $username = $_SESSION["uname"];
 
@@ -13,6 +15,7 @@ if (! isset($_SESSION["uid"])) {
     }
 }
 
+//retrive the data
 $members = "SELECT * FROM Members WHERE uid = '$user_id' ";
 $mname = $con->query($members);
 
@@ -78,6 +81,7 @@ $mname = $con->query($members);
 											
 												
 											<?php
+											//retrive data
             $item = "SELECT * FROM Obtained WHERE uname = '{$row["uname"]}' AND uid = '$user_id'";
             $items = $con->query($item);
             while ($item_list = $items->fetch_assoc()) {
@@ -88,7 +92,8 @@ $mname = $con->query($members);
 													</td>
 												
 													<?php
-
+													//retrive data
+													
                 $count = "SELECT item,count(*) as count from Obtained WHERE item = '{$item_list["item"]}' AND uname = '{$row["uname"]}' AND uid = '$user_id' group by item";
                 $counts = $con->query($count);
                 while ($number = $counts->fetch_assoc()) {

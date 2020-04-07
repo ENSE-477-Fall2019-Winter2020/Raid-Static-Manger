@@ -1,5 +1,7 @@
 <?php
+//start a session
 session_start();
+//validation
 $item_id = isset($_GET['item_id']) ? $_GET['item_id'] : 0;
 if (! $item_id) {
     echo "Unavaliable id";
@@ -13,12 +15,14 @@ if (! isset($_SESSION["uid"])) {
     $user_id = $_SESSION["uid"];
     $username = $_SESSION["uname"];
 
+    //connect database
     $con = new mysqli("localhost", "gaoha202", "project", "gaoha202");
     if ($con->connect_error) {
         die("Connection failed: " . $con->connect_error);
     }
 }
 
+//ID check
 $tmp_sql = "SELECT * FROM Dropped WHERE item_id = '$item_id'";
 $result = $con->query($tmp_sql);
 $dropped_info = $result->fetch_assoc();
@@ -28,6 +32,7 @@ if (! $dropped_info) {
     exit(0);
 }
 
+//insert data
 if (isset($_POST["bid"])) {
 
     $mname = $_POST["mname"];
@@ -46,6 +51,7 @@ if (isset($_POST["bid"])) {
     }
 }
 
+// bider list
 $bid = "select * from Auction WHERE item_id = '$item_id' LIMIT 8";
 $bids = $con->query($bid);
 ?>

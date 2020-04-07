@@ -1,4 +1,5 @@
 <?php
+//session
 session_start();
 if (! isset($_SESSION["uid"])) {
     header("Location: rsmLogin.php");
@@ -6,16 +7,18 @@ if (! isset($_SESSION["uid"])) {
 } else {
     $user_id = $_SESSION["uid"];
     $username = $_SESSION["uname"];
-
+//connection check
     $con = new mysqli("localhost", "gaoha202", "project", "gaoha202");
     if ($con->connect_error) {
         die("Connection failed: " . $con->connect_error);
     }
 }
 
+//retriving data
 $member = "SELECT * FROM Members WHERE uid='$user_id'";
 $members = $con->query($member);
 
+//add new memebres
 if (isset($_POST["add"])) {
     $mname = $_POST["mname"];
     $job = $_POST["job"];
@@ -26,6 +29,7 @@ if (isset($_POST["add"])) {
     header("location:memberChange.php");
 }
 
+//remove members
 if (isset($_POST["remove"])) {
     $id = $_POST["id"];
     $remove = "DELETE FROM Members WHERE uid = '$user_id' AND members_id = '$id'";
@@ -52,10 +56,8 @@ if (isset($_POST["remove"])) {
 			<li class="nav-item"><a href="mainpage.php">Home</a></li>
 			<li class="nav-item"><a href="newRecord.php">Add New Record</a></li>
 			<li class="nav-item"><a href="raidRecord.php">Raid Record</a></li>
-			<li class="nav-item"><a href="memberDetail.php">Members
-					Detail</a></li>
-			<li class="nav-item"><a href="memberChange.php">Add/Remove
-					Members</a></li>
+			<li class="nav-item"><a href="memberDetail.php">Members Detail</a></li>
+			<li class="nav-item"><a href="memberChange.php">Add/Remove Members</a></li>
 		</ul>
 		<ul class="fr">
 			<li class="nav-item">
@@ -76,69 +78,76 @@ if (isset($_POST["remove"])) {
 						<div class="title cl">
 							<h3>Change Members</h3>
 						</div>
-                          <div style="padding-bottom:10px">
-                             <form class="rsmadd" action="memberChange.php" method="post"
-					enctype="multipart/form-data">
-					                <table>
-						                <tbody>
-						                <tr>
-							                <td>Member Name:</td>
-					<td><input class="right_msg" type="text" name="mname" size="20" /></td>
-					<td>Job:</td>
-					<td><input class="right_msg" type="text" name="job" size="5" /></td>
-					<td>BP:</td>
-					<td><input class="right_msg" type="text" name="mbp" size="1" /></td>
-					<td></td>
-					<td><input class="btn" type="submit" name="add"
-						value="Add New Member" /></td>
-						                </tr>
-                						
-					                </tbody></table>
-			                 </form>
-			               </div>
-			               
-			               
-                          <div class="history-table">
-                            <div class="table-head">
-                              <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                                <tbody>
-                                  <tr class="bt_ph">
-                                    <td>Name</td>
-                                    <td width="25%">Job</td>
-                                    <td width="15%">BP</td>
-                                    <td width="15%">Operation</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="table-body progress_scroll" style="height:450px">
-                              <table style="border-collapse: collapse;" width="100%" border="0" cellpadding="0" cellspacing="0">
-                                <tbody>
+						<div style="padding-bottom: 10px">
+							<form class="rsmadd" action="memberChange.php" method="post"
+								enctype="multipart/form-data">
+								<table>
+									<tbody>
+										<tr>
+											<td>Member Name:</td>
+											<td><input class="right_msg" type="text" name="mname"
+												size="20" /></td>
+											<td>Job:</td>
+											<td><input class="right_msg" type="text" name="job" size="5" /></td>
+											<td>BP:</td>
+											<td><input class="right_msg" type="text" name="mbp" size="1" /></td>
+											<td></td>
+											<td><input class="btn" type="submit" name="add"
+												value="Add New Member" /></td>
+										</tr>
+
+									</tbody>
+								</table>
+							</form>
+						</div>
+
+
+						<div class="history-table">
+							<div class="table-head">
+								<table width="100%" border="0" cellpadding="0" cellspacing="0">
+									<tbody>
+										<tr class="bt_ph">
+											<td>Name</td>
+											<td width="25%">Job</td>
+											<td width="15%">BP</td>
+											<td width="15%">Operation</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							
+							<div class="table-body progress_scroll" style="height: 450px">
+								<table style="border-collapse: collapse;" width="100%"
+									border="0" cellpadding="0" cellspacing="0">
+									<tbody>
                                 <?php
-    while ($row = $members->fetch_assoc()) {
-        ?>
-                                <form class="rsmadd" action="memberChange.php" method="post"
-						enctype="multipart/form-data">
-                                  <tr>
-                                    <td><?=$row["uname"]?></td>
-                                    <td width="25%"><?=$row["job"]?></td>
-                                    <td width="15%"><?=$row["BP"]?></td>
-                                    <td><input type="hidden" name="id" value=<?=$row["members_id"]?></td>
-                                    <td width="15%"><input type="submit" class="btn" name="remove" value="remove"/></td>
-                                  </tr>
-                   </form>
+                                while ($row = $members->fetch_assoc()) {
+                                    ?>
+                                <form class="rsmadd"
+											action="memberChange.php" method="post"
+											enctype="multipart/form-data">
+											<tr>
+												<td><?=$row["uname"]?></td>
+												<td width="25%"><?=$row["job"]?></td>
+												<td width="15%"><?=$row["BP"]?></td>
+												<td><input type="hidden" name="id"
+													value=<?=$row["members_id"]?></td>
+												<td width="15%"><input type="submit" class="btn"
+													name="remove" value="remove" /></td>
+											</tr>
+										</form>
                    	<?php }?>
                                 </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        </div>
-                </td>
+								</table>
+							</div>
+						</div>
+					</div>
+				</td>
 				<td width="25%"><img style="height: 600px"
-					src="artResources/character2.jpg" alt="" class="img fr"/></td>
-          </tr></tbody>
-      </table>
-    <footer>&copy;gaoha202@uregina.ca</footer>
-  </main>
+					src="artResources/character2.jpg" alt="" class="img fr" /></td>
+			</tr>
+		</tbody>
+	</table>
+	<footer>&copy;gaoha202@uregina.ca</footer> </main>
 </body>
 </html>
