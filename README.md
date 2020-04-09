@@ -1,5 +1,7 @@
 # Raid Static Manager
 
+# Youtube Link
+	https://youtu.be/6JoSBJdW3sc
   1 Introduction
 	This majority of this project is to make a website that contains many functionality can help team leader to make team management, such as team members change by members system, record battle situation by record system, evaluate team members performance by battle points(BP) system, distribute items by auction system, and leave comments by comments system.
 	
